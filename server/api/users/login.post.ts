@@ -19,9 +19,10 @@ export default defineEventHandler(async (event) => {
         const isPasswordValid = await argon.verify(user!.password, body.password)
 
         if (!isPasswordValid) {
-            event.res.statusCode = 401
-            event.res.statusMessage = "Invalid Password"
-            return
+            throw createError({
+                statusCode: 401,
+                statusMessage: 'Invalid password',
+              })
         }
 
         const token = jwt.sign(
@@ -34,6 +35,8 @@ export default defineEventHandler(async (event) => {
 
         event.res.statusCode = 200
         event.res.statusMessage = "success login"
+
+        setCookie(event, 'token', token)
 
         return {
             status: 200,

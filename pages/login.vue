@@ -1,6 +1,12 @@
 <script lang="ts" setup>
 import type { FormError, FormSubmitEvent } from '@nuxt/ui/dist/runtime/types';
 
+definePageMeta({
+    middleware: [
+        'auth'
+    ]
+})
+
 const user = reactive({
     email: '',
     password: ''
@@ -20,7 +26,7 @@ const validate = (state: typeof user): FormError[] => {
 
 const login = async (ev: FormSubmitEvent<any>) => {
     try {
-        const response = await useFetch('/api/users/login', {
+        await useFetch('/api/users/login', {
             method: 'post',
             body: {
                 ...user
@@ -34,11 +40,12 @@ const login = async (ev: FormSubmitEvent<any>) => {
                     title: response.statusText,
                     color: 'green'
                 })
-                console.log(response);
                 
-                return
+                setTimeout(() => {
+                    window.location.reload()
+                }, 500);
                }
-               console.log(response.statusText);
+
                toast.add({
                 title: response.statusText,
                 color: 'red'

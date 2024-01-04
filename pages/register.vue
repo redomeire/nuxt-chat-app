@@ -1,6 +1,10 @@
 <script lang="ts" setup>
 import type { FormError, FormSubmitEvent } from '@nuxt/ui/dist/runtime/types';
 
+definePageMeta({
+    middleware: ['auth']
+})
+
 const user = reactive({
     fullname: '',
     email: '',
