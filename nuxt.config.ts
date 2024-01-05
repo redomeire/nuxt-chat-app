@@ -4,6 +4,9 @@ export default defineNuxtConfig({
   runtimeConfig: {
     mongodbUri: process.env.MONGODB_URI
   },
+  ui: {
+    icons: ['heroicons', 'material-symbols']
+  },
   nitro: {
     plugins: ["~/server/index.ts"],
   },
